@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Ιστορικό μετρήσεων</h1>
+<section class="card">
+  <table>
+    <tr><th>ID</th><th>Ημερομηνία</th><th>Παροχή</th><th>Τύπος</th><th>1.8.0</th><th>1.8.1</th><th>1.8.2</th><th></th></tr>
+    {% for r in items %}
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+      <td>{{ r.supply_number or '-' }}</td>
+      <td>{{ r.supply_type }}</td>
+      <td>{{ r.code_180_total or '-' }}</td>
+      <td>{{ r.code_181_day or '-' }}</td>
+      <td>{{ r.code_182_night or '-' }}</td>
+      <td><a href="/reading/{{ r.id }}">Άνοιγμα</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endblock %}

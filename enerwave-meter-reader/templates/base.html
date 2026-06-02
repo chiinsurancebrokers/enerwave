@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enerwave Meter Reader</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="brand">⚡ Enerwave Meter Reader</a>
+    <div>
+      <a href="/readings">Ιστορικό</a>
+      <a href="/export.csv">CSV</a>
+    </div>
+  </nav>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

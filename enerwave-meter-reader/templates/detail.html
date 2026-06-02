@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Μέτρηση #{{ reading.id }}</h1>
+<section class="grid two">
+  <div class="card">
+    <h2>Ένδειξη για υποβολή</h2>
+    {% for k,v in recommended.items() %}
+      <p><b>{{ k }}:</b> {{ v if v is not none else '-' }}</p>
+    {% endfor %}
+    <hr>
+    <p><b>Τύπος:</b> {{ reading.supply_type }}</p>
+    <p><b>Παροχή:</b> {{ reading.supply_number or '-' }}</p>
+    <p><b>Μετρητής:</b> {{ reading.meter_no or '-' }}</p>
+  </div>
+  <div class="card">
+    <h2>Κατανάλωση από προηγούμενη</h2>
+    {% if consumption %}
+      {% for k,v in consumption.items() %}<p><b>{{ k }}:</b> {{ v }} kWh</p>{% endfor %}
+    {% else %}
+      <p>Δεν υπάρχει προηγούμενη μέτρηση για την ίδια παροχή.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="card">
+  <h2>Αναλυτικά</h2>
+  <table>
+    <tr><th>Κωδικός</th><th>Τιμή</th></tr>
+    <tr><td>1.8.0 Συνολική</td><td>{{ reading.code_180_total or '-' }}</td></tr>
+    <tr><td>1.8.1 Ημέρας</td><td>{{ reading.code_181_day or '-' }}</td></tr>
+    <tr><td>1.8.2 Νύχτας</td><td>{{ reading.code_182_night or '-' }}</td></tr>
+    <tr><td>2.8.0 Export</td><td>{{ reading.code_280_export or '-' }}</td></tr>
+    <tr><td>0.9.1 Ώρα</td><td>{{ reading.code_091_time or '-' }}</td></tr>
+    <tr><td>0.9.2 Ημερομηνία</td><td>{{ reading.code_092_date or '-' }}</td></tr>
+  </table>
+</section>
+{% endblock %}

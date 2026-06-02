@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Ανάγνωση ψηφιακού μετρητή Holley DTSD545</h1>
+  <p>Ανέβασε φωτογραφία του μετρητή. Αν υπάρχει <b>OPENAI_API_KEY</b>, γίνεται αυτόματη ανάγνωση. Διαφορετικά συμπληρώνεις χειροκίνητα και αποθηκεύεται στη PostgreSQL.</p>
+</section>
+
+<section class="card">
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <label>Φωτογραφία μετρητή</label>
+    <input type="file" name="photo" accept="image/*" required>
+    <button type="submit">Ανέβασμα & Ανάλυση</button>
+  </form>
+</section>
+
+<section class="grid two">
+  <div class="card">
+    <h3>Οδηγίες ενδείξεων</h3>
+    <ul>
+      <li><b>1.8.0</b> Συνολική κατανάλωση</li>
+      <li><b>1.8.1</b> Ημερήσια κατανάλωση</li>
+      <li><b>1.8.2</b> Νυχτερινή κατανάλωση</li>
+      <li><b>0.9.1</b> Ώρα</li>
+      <li><b>0.9.2</b> Ημερομηνία</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Τι καταχωρείς</h3>
+    <p><b>Γ1 / Γ21:</b> ένδειξη 1.8.0 χωρίς δεκαδικά.</p>
+    <p><b>Γ1Ν / Γ23:</b> Ημέρας 1.8.1 και Νύχτας 1.8.2 χωρίς δεκαδικά.</p>
+  </div>
+</section>
+
+{% if latest %}
+<section class="card">
+  <h2>Τελευταίες μετρήσεις</h2>
+  <table>
+    <tr><th>Ημ/νία</th><th>Παροχή</th><th>Τύπος</th><th>1.8.0</th><th>1.8.1</th><th>1.8.2</th><th></th></tr>
+    {% for r in latest %}
+    <tr>
+      <td>{{ r.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+      <td>{{ r.supply_number or '-' }}</td>
+      <td>{{ r.supply_type }}</td>
+      <td>{{ r.code_180_total or '-' }}</td>
+      <td>{{ r.code_181_day or '-' }}</td>
+      <td>{{ r.code_182_night or '-' }}</td>
+      <td><a href="/reading/{{ r.id }}">Άνοιγμα</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endif %}
+{% endblock %}
